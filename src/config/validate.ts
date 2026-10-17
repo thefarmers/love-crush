@@ -26,5 +26,9 @@ export function validateConfig(c: PersonalConfig): string[] {
     const n = Number(k);
     if (!Number.isInteger(n) || n < 1 || n > TOTAL_LEVELS) issues.push(`specialLevels key ${k} is not a level 1-${TOTAL_LEVELS}`);
   }
+  if (!c.share.title.trim()) issues.push('share.title is empty');
+  if (c.share.title.length > 90) issues.push('share.title is long — previews cut it after ~70 characters');
+  if (!c.share.description.trim()) issues.push('share.description is empty');
+  if (c.share.badges.length > 3) issues.push('share.badges: at most 3 fit on the preview image');
   return issues;
 }

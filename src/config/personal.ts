@@ -14,7 +14,7 @@
 
 import type { PersonalConfig } from './types';
 
-export type { LocaleId, LoveCard, PersonalConfig, SecretPhrase } from './types';
+export type { LocaleId, LoveCard, PersonalConfig, SecretPhrase, ShareConfig } from './types';
 
 export const PERSONAL: PersonalConfig = {
   /** UI language: 'th' or 'en'. */
@@ -85,6 +85,19 @@ export const PERSONAL: PersonalConfig = {
    * public/music/ and write e.g. 'music/our-song.mp3' — it will loop softly while playing.
    */
   bgm: '',
+
+  /**
+   * How the link looks when shared (Facebook, LINE, Discord, X…). Making a gift? Write something
+   * just for them, e.g. title 'เกมนี้ทำให้ตัวเองคนเดียว', then run `npm run og` to redraw the image.
+   */
+  share: {
+    title: 'Love Crush — เกมจับคู่ผลไม้ที่เติมหัวใจด้วยการบอกรัก',
+    description:
+      'เกม Match-3 บนเว็บ 1,000 ด่าน หัวใจหมดต้องพูด “รักนะ” ใส่ไมค์ กราฟิกและเพลงสร้างด้วยโค้ดล้วน · Open source ให้ fork ไปทำเป็นของขวัญให้คนที่รักได้',
+    tagline: 'หัวใจหมด ต้องพูดว่า “รักนะ”',
+    badges: ['1,000 ด่าน', 'วาด & แต่งเพลงด้วยโค้ด', 'Open source'],
+    imageAlt: 'Love Crush — กระดานผลไม้สีพาสเทลกับตัวการ์ตูนคู่รักถือหัวใจ',
+  },
 
   /** Extra love note shown on specific levels' intro. */
   specialLevels: {

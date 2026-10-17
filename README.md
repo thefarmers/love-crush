@@ -28,6 +28,7 @@ they refill them by saying *"I love you"* out loud.
    | `winMessages`, `loseMessages` | Lines on the result screens |
    | `specialLevels` | Notes on meaningful levels (anniversary dates, …) |
    | `bgm` | Your own song, e.g. `'music/our-song.mp3'` |
+   | `share` | Link-preview title/description and the words on `og-image.png` (redraw with `npm run og`) |
 
    Starting in English? Copy [`examples/personal.en.ts`](examples/personal.en.ts) over it.
 3. Drop photos into `public/photos/` and songs into `public/music/`.
@@ -51,6 +52,10 @@ they refill them by saying *"I love you"* out loud.
 The included workflow tests, builds and publishes the game to `https://<you>.github.io/<repo>/`.
 
 **Anything else:** `npm run build` and upload `dist/` to any static host (Netlify Drop, Vercel, Cloudflare Pages…).
+
+Link previews (Facebook, LINE, Discord, X) need the site's absolute URL. It is detected automatically on
+GitHub Actions, Netlify and Vercel; anywhere else (or with a custom domain) build with
+`SITE_URL=https://your.domain/ npm run build`.
 
 On a phone, *Share → Add to Home Screen* gives a full-screen app that plays offline and keeps progress safer.
 
@@ -89,6 +94,7 @@ npm test            # all tests (engine, levels, bot, voice, config, locales)
 npm run typecheck   # TypeScript
 npm run build       # production build in dist/
 npm run calibrate   # re-run the bot over all 1000 levels (~80 s on 8+ cores)
+npm run og          # redraw public/og-image.png (link preview) — needs Chrome installed
 ```
 
 Dev shortcuts: `?dev` unlocks every level, `?dev&level=95` opens level 95, and `window.__lc` exposes the app in dev builds.

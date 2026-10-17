@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>og-image</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Rendered at exactly 1200×630 by scripts/og-image.mjs (npm run og). */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        position: relative;
+        font-family: 'Kanit', sans-serif;
+        color: #3f2a33;
+        background:
+          radial-gradient(circle at 82% 30%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 42%),
+          radial-gradient(circle at 10% 90%, rgba(244, 205, 217, 0.7), rgba(244, 205, 217, 0) 40%),
+          linear-gradient(135deg, #fffafb 0%, #fdf0f4 55%, #f6dbe4 100%);
+      }
+      .petal {
+        position: absolute;
+        border-radius: 60% 0 60% 0;
+        background: #eaa9bc;
+      }
+      .copy {
+        position: absolute;
+        left: 80px;
+        top: 138px;
+        width: 640px;
+      }
+      .kicker {
+        font-size: 17px;
+        font-weight: 500;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: #d9839f;
+      }
+      h1 {
+        margin: 10px 0 0;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 104px;
+        line-height: 1.05;
+        white-space: nowrap;
+        letter-spacing: -0.01em;
+        color: #a94a68;
+      }
+      .rule {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 22px 0 18px;
+        color: #c9a15a;
+      }
+      .rule::before,
+      .rule::after {
+        content: '';
+        width: 90px;
+        height: 1.5px;
+        background: linear-gradient(90deg, rgba(201, 161, 90, 0), #c9a15a);
+      }
+      .rule::after {
+        background: linear-gradient(90deg, #c9a15a, rgba(201, 161, 90, 0));
+      }
+      .tagline {
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 1.3;
+        white-space: nowrap;
+      }
+      .badges {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+      }
+      .badge {
+        padding: 9px 18px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow:
+          inset 0 0 0 1.5px rgba(169, 74, 104, 0.18),
+          0 8px 20px rgba(150, 60, 90, 0.08);
+        font-size: 18px;
+        font-weight: 400;
+        color: #7c6470;
+        white-space: nowrap;
+      }
+      .board {
+        position: absolute;
+        right: 86px;
+        top: 58px;
+        width: 380px;
+        padding: 14px;
+        border-radius: 34px;
+        background: #fff;
+        box-shadow:
+          0 0 0 2px #f2d4de,
+          0 40px 80px rgba(169, 74, 104, 0.22);
+        transform: rotate(-5deg);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+      .cell {
+        aspect-ratio: 1;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+      }
+      .cell:nth-child(odd) {
+        background: #fdf3f6;
+      }
+      .cell:nth-child(even) {
+        background: #fffafb;
+      }
+      .cell.jelly {
+        background: #f8cfdb;
+      }
+      .cell img {
+        width: 100%;
+        height: 100%;
+      }
+      /* Not ".couple": the SVG itself already carries that class. */
+      .pair {
+        position: absolute;
+        right: 318px;
+        bottom: 8px;
+        width: 210px;
+        filter: drop-shadow(0 18px 24px rgba(150, 60, 90, 0.18));
+      }
+      .pair svg {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="copy">
+      <div class="kicker">Love Crush</div>
+      <h1>Love Crush</h1>
+      <div class="rule">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5s-7.5-4.6-7.5-10.4A4.2 4.2 0 0 1 12 7.6a4.2 4.2 0 0 1 7.5 2.5c0 5.8-7.5 10.4-7.5 10.4z" /></svg>
+      </div>
+      <div class="tagline" id="tagline"></div>
+      <div class="badges" id="badges"></div>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="pair" id="couple"></div>
+    <script type="module">
+      import { PERSONAL } from '/src/config/personal.ts';
+      import { getAtlas, iconURL } from '/src/render/sprites.ts';
+      import { coupleSVG } from '/src/ui/couple.ts';
+
+      const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+      document.querySelector('.kicker').textContent = 'A little game, made with love';
+      document.getElementById('tagline').innerHTML = esc(PERSONAL.share.tagline);
+      document.getElementById('badges').innerHTML = PERSONAL.share.badges.map((b) => `<span class="badge">${esc(b)}</span>`).join('');
+
+      const atlas = getAtlas(180);
+      const url = (c) => c.toDataURL('image/png');
+      // A hand-picked 4×4 board: plain fruits, a couple of specials, a pearl and some jelly.
+      const layout = [
+        ['gem0', 'gem1', 'gem2', 'gem4'],
+        ['gem3', 'bomb0', 'gem5', 'gem1'],
+        ['gem2', 'gem4', 'rainbow', 'gem0'],
+        ['lineH5', 'gem0', 'gem3', 'gem2'],
+      ];
+      const jelly = new Set(['3,1', '3,2', '3,3', '2,3']);
+      const src = (k) =>
+        k === 'rainbow'
+          ? url(atlas.rainbow)
+          : k.startsWith('bomb')
+            ? url(atlas.special.bomb[+k.slice(4)])
+            : k.startsWith('lineH')
+              ? url(atlas.special.lineH[+k.slice(5)])
+              : iconURL(k, 180);
+      document.getElementById('board').innerHTML = layout
+        .flatMap((row, r) => row.map((k, c) => `<div class="cell ${jelly.has(`${r},${c}`) ? 'jelly' : ''}"><img src="${src(k)}" /></div>`))
+        .join('');
+      document.getElementById('couple').innerHTML = coupleSVG('love', { size: 210 });
+
+      for (let i = 0; i < 14; i++) {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        const s = 8 + ((i * 37) % 14);
+        Object.assign(p.style, {
+          width: `${s}px`,
+          height: `${s}px`,
+          left: `${(i * 97 + 30) % 1180}px`,
+          top: `${(i * 173 + 40) % 610}px`,
+          opacity: String(0.18 + ((i * 13) % 20) / 100),
+          transform: `rotate(${i * 47}deg)`,
+        });
+        document.body.prepend(p);
+      }
+      await document.fonts.ready;
+      document.title = 'ready';
+    </script>
+  </body>
+</html>

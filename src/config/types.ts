@@ -29,4 +29,18 @@ export interface PersonalConfig {
   loseMessages: string[];
   bgm: string;
   specialLevels: Record<number, string>;
+  /** Link preview (Open Graph) text and the words drawn on og-image.png (`npm run og`). */
+  share: ShareConfig;
+}
+
+export interface ShareConfig {
+  /** Preview title (keep it under ~70 characters). */
+  title: string;
+  /** Preview description (~150 characters reads best). */
+  description: string;
+  /** Short line drawn on the preview image. */
+  tagline: string;
+  /** Up to three small badges on the preview image. */
+  badges: string[];
+  imageAlt: string;
 }

@@ -31,6 +31,15 @@ export const PERSONAL: PersonalConfig = {
 
   bgm: '',
 
+  share: {
+    title: 'Love Crush — a match-3 you refill by saying “I love you”',
+    description:
+      'A 1,000-level match-3 for the web. Out of hearts? Say “I love you” into the mic. Art and music generated in code · open source, fork it into a gift.',
+    tagline: 'Out of hearts? Say “I love you”.',
+    badges: ['1,000 levels', 'Art & music in code', 'Open source'],
+    imageAlt: 'Love Crush — a pastel fruit board with a cute couple holding a heart',
+  },
+
   specialLevels: {
     14: 'Level 14 — our little Valentine’s',
     100: 'Level 100! I love you a hundred times more',

@@ -44,3 +44,27 @@ describe('locales', () => {
     });
   }
 });
+
+describe('link preview metadata', async () => {
+  const { shareMeta, siteUrl } = await import('../scripts/share-meta');
+
+  it('infers the public URL from the hosting environment', () => {
+    expect(siteUrl({ SITE_URL: 'https://love.example.com' })).toBe('https://love.example.com/');
+    expect(siteUrl({ GITHUB_ACTIONS: 'true', GITHUB_REPOSITORY: 'TheFarmers/love-crush' })).toBe('https://thefarmers.github.io/love-crush/');
+    expect(siteUrl({ GITHUB_ACTIONS: 'true', GITHUB_REPOSITORY: 'amy/amy.github.io' })).toBe('https://amy.github.io/');
+    expect(siteUrl({ NETLIFY: 'true', URL: 'https://lovely.netlify.app' })).toBe('https://lovely.netlify.app/');
+    expect(siteUrl({})).toBeNull();
+  });
+
+  it('emits absolute Open Graph / Twitter tags with escaped text', () => {
+    const html = shareMeta(
+      { ...PERSONAL, share: { ...PERSONAL.share, title: 'Us & "you"', description: 'd' } },
+      { GITHUB_ACTIONS: 'true', GITHUB_REPOSITORY: 'thefarmers/love-crush' },
+    );
+    expect(html).toContain('<meta property="og:image" content="https://thefarmers.github.io/love-crush/og-image.png" />');
+    expect(html).toContain('<meta property="og:url" content="https://thefarmers.github.io/love-crush/" />');
+    expect(html).toContain('<meta name="twitter:card" content="summary_large_image" />');
+    expect(html).toContain('content="Us &amp; &quot;you&quot;"');
+    expect(html).toContain('<meta property="og:locale" content="th_TH" />');
+  });
+});

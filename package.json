@@ -23,7 +23,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "calibrate": "node scripts/calibrate.mjs",
-    "check": "tsc --noEmit && vitest run"
+    "check": "tsc --noEmit && vitest run",
+    "og": "node scripts/og-image.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.5",
